@@ -7,7 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public class Kanwa extends JPanel implements MouseInputListener {
+public class Kanwa extends JPanel implements MouseInputListener/*, KeyListener*/ {
 
     int xkliku;
     int ykliku;
@@ -16,20 +16,18 @@ public class Kanwa extends JPanel implements MouseInputListener {
     public Kanwa() {
         JFrame okienko = new JFrame();   //stworzenie ramki
 
-        okienko.setTitle("Kanwa, rysuj kawdraty (k) lub koła (o)");                              //ustawienie tytułu okna
-        okienko.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //wyjscie z aplikacji
-        okienko.setLayout(null);                                //?
-        okienko.setResizable(true);                            //zapobieganie zmiany rozmiaru okna
-        okienko.setSize(600,600);                   //ustawienie rozmiaru okna
-        okienko.setLocationRelativeTo(null);                    //ustawienie okna na środku
+        okienko.setTitle("Kanwa, rysuj kawdraty (k) lub koła (o)");         //ustawienie tytułu okna
+        okienko.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);             //wyjscie z aplikacji
+        okienko.setLayout(null);                                            //?
+        okienko.setResizable(true);                                         //zapobieganie zmiany rozmiaru okna
+        okienko.setSize(600,600);                               //ustawienie rozmiaru okna
+        okienko.setLocationRelativeTo(null);                                //ustawienie okna na środku
 
-
-        JPanel panel = new JPanel();
+        /*JPanel panel = new JPanel();
         panel.setBounds(0,0, 600,600);
-        //setContentPane(panel);
         panel.setLayout(null);
         panel.setFocusable(true);
-        panel.setBackground(Color.lightGray);
+        panel.setBackground(Color.gray);
 
         panel.addKeyListener(new KeyAdapter() {
             @Override
@@ -38,12 +36,24 @@ public class Kanwa extends JPanel implements MouseInputListener {
                 znak = e.getKeyChar();
             }
         });//akcja przy wcisnieciu klawisza
+        panel.addMouseListener(this);*/
 
-        panel.addMouseListener(this);
-
+        this.setSize(600,600);                      //usawienie rozmiaru Kanwy
+        this.setLayout(null);
+        this.setFocusable(true);
+        this.setBackground(Color.gray);
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                znak = e.getKeyChar();
+            }
+        });     //akcja przy wcisnieciu klawisza
+        this.addMouseListener(this);
+        //this.setVisible(true);
         okienko.setVisible(true);                               //ustawienie widocznosci okna
-        okienko.add(panel);
-
+        //okienko.add(panel);
+        okienko.add(this);                                      //doddanie do okienka
 
         System.out.println("Program konsolowy");
         //System.exit(0);
@@ -53,7 +63,7 @@ public class Kanwa extends JPanel implements MouseInputListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
-        //g2d.setColor(Color.YELLOW);
+        g2d.setColor(Color.YELLOW);
         //g2d.fillRect(0,0,WIDTH,HEIGHT);
         g2d.setColor(Color.BLACK);
         rysowanie(g2d);
@@ -61,6 +71,7 @@ public class Kanwa extends JPanel implements MouseInputListener {
 
     public void rysowanie (Graphics2D rysunek)
     {
+        //System.out.println("rysowanie");
         if(znak == 'k')
         {
             rysunek.fillRect(xkliku, ykliku, 30,30);
@@ -110,6 +121,22 @@ public class Kanwa extends JPanel implements MouseInputListener {
     public void mouseMoved(MouseEvent e) {
 
     }
+
+    /*@Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        znak = e.getKeyChar();
+        System.out.println("Wybrany kształt to: " + e.getKeyChar());
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }*/
 }
 
         /*JLabel napis_login = new JLabel("login:");                      //zrobienie napisu login
